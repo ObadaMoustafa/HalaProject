@@ -1,0 +1,21 @@
+{
+  "name": "halaproject",
+  "version": "1.0.0",
+  "description": "start a CURD app from A to Z",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ObadaElSharbatly/HalaProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ObadaElSharbatly/HalaProject/issues"
+  },
+  "homepage": "https://github.com/ObadaElSharbatly/HalaProject#readme"
+}
