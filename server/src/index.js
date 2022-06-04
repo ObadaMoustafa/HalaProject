@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import signUpRoute from "./routes/signUp.js";
 import { connectDb } from "./Db/connectDb.js";
-import signInRoute from "./routes/signIn.js";
+import loginRoute from "./routes/login.js";
 
 const app = express();
 app.use(express.json());
@@ -19,7 +19,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/signUp", signUpRoute);
-app.use("/api/signIn", signInRoute);
+app.use("/api/login", loginRoute);
 
 app.listen(port, function (err) {
   if (err) console.log("Error!:", err);

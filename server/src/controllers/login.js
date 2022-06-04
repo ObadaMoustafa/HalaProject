@@ -1,7 +1,6 @@
 import Users from "../Db/models/users.js";
 
-export const signIn = async (req, res) => {
-  console.log("entered");
+export const login = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 

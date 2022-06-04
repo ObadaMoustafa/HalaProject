@@ -10,6 +10,13 @@ export const createNewUser = async (req, res) => {
     res.status(200).json({ success: true, result: newUser });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, result: "can not make a new user" });
+    let errorMsg;
+    if (error.code === 11000) {
+      errorMsg = `duplicated key ${JSON.stringify(
+        error.keyValue
+      )} is already exists`;
+    }
+
+    res.status(500).json({ success: false, result: errorMsg });
   }
 };

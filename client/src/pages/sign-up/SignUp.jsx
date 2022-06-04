@@ -1,4 +1,15 @@
 import React, { useState } from "react";
+/*
+
+   * sign Up form
+   * multiple values handle functions
+   * submit
+   * API - post
+   * connect DB
+   * middle ware routes
+   * controllers
+
+*/
 
 function SignUp() {
   //write code here
@@ -25,21 +36,11 @@ function SignUp() {
       method: "POST",
       body: JSON.stringify(body),
     });
-
+    setEmail("");
+    setPassword("");
     const data = await response.json();
     console.log(data);
   }
-  /*
-
-   ? sign Up form
-   ? multiple values handle functions
-   ? submit
-   ? API - post
-   * connect DB
-   ? middle ware routes
-   * controllers
-
-   */
 
   return (
     <form onSubmit={handleSubmit}>
@@ -47,7 +48,7 @@ function SignUp() {
       <input type="text" value={email} onChange={changeEmail} />
       <label htmlFor="password">password:</label>
       <input type="text" value={password} onChange={changePassword} />
-      <button type="submit">submit</button>
+      <button type="submit">sign up</button>
     </form>
   );
 }
