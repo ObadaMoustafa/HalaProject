@@ -5,7 +5,10 @@ export const createNewUser = async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password)
       throw new Error("You need to provide User name and password");
-    const newUser = await Users.create({ email, password });
+    const newUser = await Users.create({
+      email: email.toLowerCase(),
+      password,
+    });
 
     res.status(200).json({ success: true, result: newUser });
   } catch (error) {

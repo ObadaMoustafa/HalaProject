@@ -13,7 +13,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorNsg] = useState(null);
 
-  const { setUserObj } = useContext(UserContext);
+  const { setUserObj, saveUserToStorage } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ function Login() {
     if (!data.success) {
       setErrorNsg(data.result);
     } else {
-      setUserObj(data.result);
+      saveUserToStorage(data.result);
       navigate(`/profile/${data.result._id}`);
     }
     console.log(data);

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
 /*
 
    * sign Up form
@@ -15,6 +18,8 @@ function SignUp() {
   //write code here
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userObj, setUserObj, saveUserToStorage } = useContext(UserContext);
+  const navigate = useNavigate();
 
   function changeEmail(e) {
     const { value } = e.target;
@@ -39,7 +44,8 @@ function SignUp() {
     setEmail("");
     setPassword("");
     const data = await response.json();
-    console.log(data);
+    saveUserToStorage(data.result);
+    navigate(`/profile/${data.result._id}`);
   }
 
   return (

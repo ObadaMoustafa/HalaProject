@@ -16,7 +16,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile/:aaa" element={<Profile />} />
+        <Route path="/profile/:userId" element={<Profile />} />
         <Route path="*" element={<h1>404 NOT FOUND PAGE</h1>} />
       </Routes>
     </UserProvider>
