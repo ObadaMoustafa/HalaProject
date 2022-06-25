@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "start a CURD app from A to Z",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "client": "cd client && npm run start",
-    "server": "cd server && npm run start"
+    "server": "cd server && npm run start",
+    "start": "concurrently \"npm run server\" \"npm run\""
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/ObadaElSharbatly/HalaProject/issues"
   },
-  "homepage": "https://github.com/ObadaElSharbatly/HalaProject#readme"
+  "homepage": "https://github.com/ObadaElSharbatly/HalaProject#readme",
+  "dependencies": {
+    "concurrently": "^7.2.2"
+  }
 }

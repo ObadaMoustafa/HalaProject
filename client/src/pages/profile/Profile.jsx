@@ -2,19 +2,25 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
+import useFetch from "../../hooks/useFetch";
 import DeleteUser from "./components/DeleteUser";
 
 function Profile() {
   //write code here
   const { userId } = useParams();
   const { userObj, setUserObj } = useContext(UserContext);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [shouldShowEmailForm, setShouldShowEmailForm] = useState(false);
   const [shouldShowPasswordForm, setShouldShowPasswordForm] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const { isLoading, error, performFetch } = useFetch();
+  /*   const {
+    isLoading: isSettingPassword,
+    error: passwordErr,
+    performFetch: setNewPassword,
+  } = useFetch(`${process.env.REACT_APP_API_URL}/update/password`); */
 
   useEffect(() => {
     if (userId !== userObj?._id) navigate("/error404");
@@ -24,60 +30,79 @@ function Profile() {
     console.log("userObj", userObj);
   }, [userObj]);
   async function handleChangeEmail(e) {
-    setError(null);
-    setIsLoading(true);
     e.preventDefault();
     const body = { email, id: userObj._id };
-    const response = await fetch(
+    performFetch(
       `${process.env.REACT_APP_API_URL}/update/email`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "PUT",
-        body: JSON.stringify(body),
+      "PUT",
+      body
+    ).then(data => {
+      if (data) {
+        setUserObj(data.result);
+        setShouldShowEmailForm(false);
       }
-    );
+    });
+    // const response = await fetch(
+    //   `${process.env.REACT_APP_API_URL}/update/email`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     method: "PUT",
+    //     body: JSON.stringify(body),
+    //   }
+    // );
 
-    const data = await response.json();
-    setIsLoading(false);
+    // const data = await response.json();
+    // setIsLoading(false);
 
-    if (!data.success) {
-      setError(data.result);
-      return;
-    }
+    // if (!data.success) {
+    //   setError(data.result);
+    //   return;
+    // }
 
-    setUserObj(data.result);
-    setShouldShowEmailForm(false);
+    // setUserObj(data.result);
+    // setShouldShowEmailForm(false);
   }
 
   async function handleChangePassword(e) {
     e.preventDefault();
-    setError(null);
-    setIsLoading(true);
-    setTimeout(async () => {
-      const body = { id: userId, password };
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/update/password`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "PUT",
-          body: JSON.stringify(body),
-        }
-      );
-      console.log("response", response);
-      const data = await response.json();
-      setIsLoading(false);
-      if (!data.success) {
-        setError(data.result);
-        return;
+    const body = { id: userId, password };
+    performFetch(
+      `${process.env.REACT_APP_API_URL}/update/password`,
+      "PUT",
+      body
+    ).then(data => {
+      if (data) {
+        setUserObj(data.result);
+        setShouldShowPasswordForm(false);
       }
+    });
+    // setError(null);
+    // setIsLoading(true);
+    // setTimeout(async () => {
+    //   const body = { id: userId, password };
+    //   const response = await fetch(
+    //     `${process.env.REACT_APP_API_URL}/update/password`,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       method: "PUT",
+    //       body: JSON.stringify(body),
+    //     }
+    //   );
+    //   console.log("response", response);
+    //   const data = await response.json();
+    //   setIsLoading(false);
+    //   if (!data.success) {
+    //     setError(data.result);
+    //     return;
+    //   }
 
-      setUserObj(data.result);
-      setShouldShowPasswordForm(false);
-    }, 2000);
+    //   setUserObj(data.result);
+    //   setShouldShowPasswordForm(false);
+    // }, 2000);
   }
 
   return (

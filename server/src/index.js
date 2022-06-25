@@ -19,7 +19,7 @@ const port = process.env.PORT;
 //? test the server side
 /* app.get("/api", (req, res) => {
   res.json({ name: "Hala", date: "14/05/2022" });
-}); */
+}); ldsjadkljsadkj*/
 
 app.use("/api/signUp", signUpRoute);
 app.use("/api/login", loginRoute);

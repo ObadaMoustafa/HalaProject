@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
+import useFetch from "../../hooks/useFetch";
 /*
  * form
  * get request
@@ -11,9 +12,11 @@ function Login() {
   //write code here
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorNsg] = useState(null);
 
-  const { setUserObj, saveUserToStorage } = useContext(UserContext);
+  const { saveUserToStorage } = useContext(UserContext);
+  const { isLoading, error, performFetch } = useFetch(
+    "http://localhost:5000/api/login"
+  );
 
   const navigate = useNavigate();
 
@@ -26,31 +29,43 @@ function Login() {
     setPassword(value);
   }
 
-  async function handleLogin(e) {
+  function handleLogin(e) {
     e.preventDefault();
-    setErrorNsg(null);
-    const body = { email, password };
 
-    const response = await fetch("http://localhost:5000/api/login", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(body),
+    const body = { email, password };
+    performFetch("POST", body).then(data => {
+      if (data) {
+        console.log("the error", error);
+        setEmail("");
+        setPassword("");
+        console.log("data", data);
+        saveUserToStorage(data.result);
+        navigate(`/profile/${data.result._id}`);
+      }
     });
-    setEmail("");
-    setPassword("");
-    const data = await response.json();
-    if (!data.success) {
-      setErrorNsg(data.result);
-    } else {
-      saveUserToStorage(data.result);
-      navigate(`/profile/${data.result._id}`);
-    }
-    console.log(data);
+    // setErrorNsg(null);
+
+    // const response = await fetch("http://localhost:5000/api/login", {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   method: "POST",
+    //   body: JSON.stringify(body),
+    // });
+    // setEmail("");
+    // setPassword("");
+    // const data = await response.json();
+    // if (!data.success) {
+    //   setErrorNsg(data.result);
+    // } else {
+    //   saveUserToStorage(data.result);
+    //   navigate(`/profile/${data.result._id}`);
+    // }
+    // console.log(data);
   }
   return (
     <>
+      {isLoading && <div style={{ color: "red" }}>Loading....</div>}
       <form onSubmit={handleLogin}>
         <label htmlFor="email">Email:</label>
         <input type="text" value={email} onChange={changeEmail} />
@@ -59,7 +74,7 @@ function Login() {
         <button type="submit">login</button>
       </form>
 
-      {errorMsg && <div style={{ color: "red" }}>Error: {errorMsg}</div>}
+      {error && <div style={{ color: "red" }}>Error: {error}</div>}
     </>
   );
 }

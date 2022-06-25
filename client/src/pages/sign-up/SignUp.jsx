@@ -18,7 +18,7 @@ function SignUp() {
   //write code here
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { userObj, setUserObj, saveUserToStorage } = useContext(UserContext);
+  const { saveUserToStorage } = useContext(UserContext);
   const navigate = useNavigate();
 
   function changeEmail(e) {
