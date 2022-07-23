@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 import { UserContext } from "../../context/userContext";
 import useFetch from "../../hooks/useFetch";
 /*
@@ -14,9 +15,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const { saveUserToStorage } = useContext(UserContext);
-  const { isLoading, error, performFetch } = useFetch(
-    "http://localhost:5000/api/login"
-  );
+  const { isLoading, error, performFetch } = useFetch();
 
   const navigate = useNavigate();
 
@@ -33,7 +32,7 @@ function Login() {
     e.preventDefault();
 
     const body = { email, password };
-    performFetch("POST", body).then(data => {
+    performFetch("http://localhost:5000/api/login", "POST", body).then(data => {
       if (data) {
         console.log("the error", error);
         setEmail("");
@@ -65,7 +64,7 @@ function Login() {
   }
   return (
     <>
-      {isLoading && <div style={{ color: "red" }}>Loading....</div>}
+      {isLoading && <Loading />}
       <form onSubmit={handleLogin}>
         <label htmlFor="email">Email:</label>
         <input type="text" value={email} onChange={changeEmail} />

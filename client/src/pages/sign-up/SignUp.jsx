@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
+import Form from "../../components/forms/Form";
+import Input from "../../components/forms/Input";
 /*
 
    * sign Up form
@@ -20,15 +22,6 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const { saveUserToStorage } = useContext(UserContext);
   const navigate = useNavigate();
-
-  function changeEmail(e) {
-    const { value } = e.target;
-    setEmail(value);
-  }
-  function changePassword(e) {
-    const { value } = e.target;
-    setPassword(value);
-  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -49,13 +42,20 @@ function SignUp() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
+      {/* <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email:</label>
       <input type="text" value={email} onChange={changeEmail} />
       <label htmlFor="password">password:</label>
       <input type="text" value={password} onChange={changePassword} />
       <button type="submit">sign up</button>
-    </form>
+    </form> */}
+
+      <Form onSubmit={handleSubmit} buttonText="Sign up">
+        <Input label="email" value={email} setValue={setEmail} />
+        <Input label="password" value={password} setValue={setPassword} />
+      </Form>
+    </>
   );
 }
 

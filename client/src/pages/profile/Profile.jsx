@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import useFetch from "../../hooks/useFetch";
 import DeleteUser from "./components/DeleteUser";
@@ -8,7 +8,7 @@ import DeleteUser from "./components/DeleteUser";
 function Profile() {
   //write code here
   const { userId } = useParams();
-  const { userObj, setUserObj } = useContext(UserContext);
+  const { userObj, setUserObj, deleteUser } = useContext(UserContext);
   const [shouldShowEmailForm, setShouldShowEmailForm] = useState(false);
   const [shouldShowPasswordForm, setShouldShowPasswordForm] = useState(false);
   const [email, setEmail] = useState("");
@@ -26,9 +26,13 @@ function Profile() {
     if (userId !== userObj?._id) navigate("/error404");
   }, [userId]);
 
+  function logout() {
+    deleteUser();
+  }
   useEffect(() => {
     console.log("userObj", userObj);
   }, [userObj]);
+
   async function handleChangeEmail(e) {
     e.preventDefault();
     const body = { email, id: userObj._id };
@@ -111,6 +115,7 @@ function Profile() {
       {error && <h1>{error}</h1>}
       {userObj ? (
         <>
+          <Outlet />
           <h2>your email is {userObj.email}</h2>
           <button onClick={() => setShouldShowEmailForm(prev => !prev)}>
             edit email
@@ -144,6 +149,7 @@ function Profile() {
           <div>
             <DeleteUser />
           </div>
+          <button onClick={logout}>logout</button>
         </>
       ) : (
         <h1>user has been deleted successfully </h1>
