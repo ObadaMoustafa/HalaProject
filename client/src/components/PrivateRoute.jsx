@@ -9,9 +9,13 @@ function PrivateRoute() {
   const { userId } = useParams();
   const { userObj } = useContext(UserContext);
   console.log(`userId %c${userId}`, "color: green", typeof userId);
-  console.log(`ID from Obj %c${userObj._id}`, "color: red", typeof userObj._id);
+  console.log(
+    `ID from Obj %c${userObj?._id}`,
+    "color: red",
+    typeof userObj?._id
+  );
 
-  return userObj && userObj._id === userId ? (
+  return userObj && userObj?._id === userId ? (
     <Outlet />
   ) : (
     <Navigate to="/login" />

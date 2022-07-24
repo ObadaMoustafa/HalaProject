@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import useFetch from "../../hooks/useFetch";
 import DeleteUser from "./components/DeleteUser";
+import ProfilePic from "./components/ProfilePic";
 
 function Profile() {
   //write code here
@@ -24,6 +25,7 @@ function Profile() {
 
   useEffect(() => {
     if (userId !== userObj?._id) navigate("/error404");
+    // eslint-disable-next-line
   }, [userId]);
 
   function logout() {
@@ -116,6 +118,7 @@ function Profile() {
       {userObj ? (
         <>
           <Outlet />
+          <ProfilePic />
           <h2>your email is {userObj.email}</h2>
           <button onClick={() => setShouldShowEmailForm(prev => !prev)}>
             edit email
